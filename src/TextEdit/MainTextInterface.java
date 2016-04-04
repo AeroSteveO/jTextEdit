@@ -6,6 +6,9 @@
 package TextEdit;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
 import javax.swing.JFileChooser;
 
 /**
@@ -100,7 +103,36 @@ public class MainTextInterface extends javax.swing.JFrame {
         filename = evt.getActionCommand();
         file = new File(filename);
         System.out.println(filename);
-        
+        jTextArea1.setText("");
+        fileLoad();
+//        if(!file.exists()){
+//            try {
+//                file.createNewFile();
+//            }
+//            catch (IOException e) {
+//                e.printStackTrace();
+//                System.out.println("IO EXCEPTION OCCURED");
+//            }
+//            // display nothing
+//        }
+//        else {
+//            try{
+//                Scanner wordfile = new Scanner(file);
+//                String wordls = "";
+//                while (wordfile.hasNext()){
+//                    String line = (wordfile.nextLine());
+//                    wordls= wordls+ line;
+//                    jTextArea1.append(line + "\n");
+//                }
+//                wordfile.close();
+////            return (wordls);
+//            } catch (FileNotFoundException ex) {
+//                System.out.println("TEXT LOADER FAILED");
+//                ex.printStackTrace();
+////            return null;
+//            }
+//        }
+
         
     }//GEN-LAST:event_jTextField1ActionPerformed
 
@@ -115,6 +147,7 @@ public class MainTextInterface extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             file = fileChoice.getSelectedFile();
             filename = file.getName();
+            fileLoad();
         }
         else {
             System.out.println("NO FILE SELECTED");
@@ -157,6 +190,36 @@ public class MainTextInterface extends javax.swing.JFrame {
         });
     }
 
+    void fileLoad() {
+        if(!file.exists()){
+            try {
+                file.createNewFile();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("IO EXCEPTION OCCURED");
+            }
+            // display nothing
+        }
+        else {
+            try{
+                Scanner wordfile = new Scanner(file);
+                String wordls = "";
+                while (wordfile.hasNext()){
+                    String line = (wordfile.nextLine());
+                    wordls= wordls+ line;
+                    jTextArea1.append(line + "\n");
+                }
+                wordfile.close();
+//            return (wordls);
+            } catch (FileNotFoundException ex) {
+                System.out.println("TEXT LOADER FAILED");
+                ex.printStackTrace();
+//            return null;
+            }
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
