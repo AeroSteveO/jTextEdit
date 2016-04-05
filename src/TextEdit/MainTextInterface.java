@@ -128,44 +128,14 @@ public class MainTextInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
         filename = evt.getActionCommand();
         file = new File(filename);
-        System.out.println(filename);
-        jTextArea1.setText("");
+        System.out.println("File " + filename + " input via JTextField");
         fileLoad();
-//        if(!file.exists()){
-//            try {
-//                file.createNewFile();
-//            }
-//            catch (IOException e) {
-//                e.printStackTrace();
-//                System.out.println("IO EXCEPTION OCCURED");
-//            }
-//            // display nothing
-//        }
-//        else {
-//            try{
-//                Scanner wordfile = new Scanner(file);
-//                String wordls = "";
-//                while (wordfile.hasNext()){
-//                    String line = (wordfile.nextLine());
-//                    wordls= wordls+ line;
-//                    jTextArea1.append(line + "\n");
-//                }
-//                wordfile.close();
-////            return (wordls);
-//            } catch (FileNotFoundException ex) {
-//                System.out.println("TEXT LOADER FAILED");
-//                ex.printStackTrace();
-////            return null;
-//            }
-//        }
-
-        
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         filename = jTextField1.getText();
-        System.out.println(filename);
+        System.out.println("File " + filename + " input via Load File Button");
         file = new File(filename);
         fileLoad();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -177,6 +147,7 @@ public class MainTextInterface extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             file = fileChoice.getSelectedFile();
             filename = file.getName();
+            System.out.println("File " + filename + " chosen via JFileChooser");
             fileLoad();
         }
         else {
@@ -187,7 +158,7 @@ public class MainTextInterface extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        JOptionPane exitpane = new JOptionPane();//JOptionPane.YES_NO_OPTION
+        System.out.println("File - Exit Selected");
         int out = JOptionPane.showConfirmDialog(null, "Would you like to save before closing?", "Save and Close", JOptionPane.YES_NO_OPTION);
         if (out == JOptionPane.YES_OPTION) {
             saveFile(jTextArea1.getText());
@@ -199,12 +170,10 @@ public class MainTextInterface extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
         saveFile(jTextArea1.getText());
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
         saveFile(jTextArea1.getText());
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -244,15 +213,15 @@ public class MainTextInterface extends javax.swing.JFrame {
     }
     void saveFile(String save) {
         try {
-//            file.createNewFile();
-            
             FileWriter fileWriter = new FileWriter(file.getName(),false);
             BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
             bufferWriter.write(save);
             bufferWriter.close();
+            System.out.println("File Saved");
         }
         catch (Exception ex){
-            ex.printStackTrace();
+           // ex.printStackTrace();
+           System.out.println("Error: File NOT Saved");
         }
 }
 
@@ -263,7 +232,7 @@ public class MainTextInterface extends javax.swing.JFrame {
                 file.createNewFile();
             }
             catch (IOException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
                 System.out.println("IO EXCEPTION OCCURED");
             }
             // display nothing
@@ -278,11 +247,10 @@ public class MainTextInterface extends javax.swing.JFrame {
                     jTextArea1.append(line + "\n");
                 }
                 wordfile.close();
-//            return (wordls);
+                System.out.println("Success in loading file");
             } catch (FileNotFoundException ex) {
-                System.out.println("TEXT LOADER FAILED");
-                ex.printStackTrace();
-//            return null;
+                System.out.println("Error in reading text");
+//                ex.printStackTrace();
             }
         }
     }
