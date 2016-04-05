@@ -21,13 +21,18 @@ import javax.swing.JOptionPane;
 public class MainTextInterface extends javax.swing.JFrame {
     String filename = null;
     File file = null;
+    LoggerFrame log = null;
     /**
      * Creates new form MainTextInterface
+     * @param log
      */
-    public MainTextInterface() {
+//    public MainTextInterface() {
+//        initComponents();
+//    }
+    public MainTextInterface(LoggerFrame log) {
         initComponents();
+        this.log = log;
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,6 +55,7 @@ public class MainTextInterface extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,7 +122,16 @@ public class MainTextInterface extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("View");
+
+        jMenuItem4.setText("Hide/Show Log");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -128,14 +143,14 @@ public class MainTextInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
         filename = evt.getActionCommand();
         file = new File(filename);
-        System.out.println("File " + filename + " input via JTextField");
+        log.getTextArea().append("File " + filename + " input via JTextField\n");
         fileLoad();
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         filename = jTextField1.getText();
-        System.out.println("File " + filename + " input via Load File Button");
+        log.getTextArea().append("File " + filename + " input via Load File Button\n");
         file = new File(filename);
         fileLoad();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -147,18 +162,18 @@ public class MainTextInterface extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             file = fileChoice.getSelectedFile();
             filename = file.getName();
-            System.out.println("File " + filename + " chosen via JFileChooser");
+            log.getTextArea().append("File " + filename + " chosen via JFileChooser\n");
             fileLoad();
         }
         else {
-            System.out.println("NO FILE SELECTED");
+            log.getTextArea().append("NO FILE SELECTED\n");
         }
 //        filename = fileChoice.getName();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        System.out.println("File - Exit Selected");
+        log.getTextArea().append("File - Exit Selected\n");
         int out = JOptionPane.showConfirmDialog(null, "Would you like to save before closing?", "Save and Close", JOptionPane.YES_NO_OPTION);
         if (out == JOptionPane.YES_OPTION) {
             saveFile(jTextArea1.getText());
@@ -167,6 +182,7 @@ public class MainTextInterface extends javax.swing.JFrame {
         else if (out == JOptionPane.NO_OPTION) {
             System.exit(0);
         }
+        log.getTextArea().append("Closed out of file save/close dialog\n");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -176,6 +192,16 @@ public class MainTextInterface extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         saveFile(jTextArea1.getText());
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        if (log.isShowing()) {
+            log.setVisible(false);
+        }
+        else {
+            log.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,7 +233,9 @@ public class MainTextInterface extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainTextInterface().setVisible(true);
+//                LoggerFrame log = new LoggerFrame();
+//                log.setVisible(true);
+                new MainTextInterface(new LoggerFrame()).setVisible(true);
             }
         });
     }
@@ -217,11 +245,11 @@ public class MainTextInterface extends javax.swing.JFrame {
             BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
             bufferWriter.write(save);
             bufferWriter.close();
-            System.out.println("File Saved");
+            log.getTextArea().append("File Saved\n");
         }
         catch (Exception ex){
            // ex.printStackTrace();
-           System.out.println("Error: File NOT Saved");
+           log.getTextArea().append("Error: File NOT Saved\n");
         }
 }
 
@@ -233,7 +261,7 @@ public class MainTextInterface extends javax.swing.JFrame {
             }
             catch (IOException e) {
 //                e.printStackTrace();
-                System.out.println("IO EXCEPTION OCCURED");
+                log.getTextArea().append("IO EXCEPTION OCCURED\n");
             }
             // display nothing
         }
@@ -247,9 +275,9 @@ public class MainTextInterface extends javax.swing.JFrame {
                     jTextArea1.append(line + "\n");
                 }
                 wordfile.close();
-                System.out.println("Success in loading file");
+                log.getTextArea().append("Success in loading file\n");
             } catch (FileNotFoundException ex) {
-                System.out.println("Error in reading text");
+                log.getTextArea().append("Error in reading text\n");
 //                ex.printStackTrace();
             }
         }
@@ -265,6 +293,7 @@ public class MainTextInterface extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
