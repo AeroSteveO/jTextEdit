@@ -5,11 +5,14 @@
  */
 package TextEdit;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -44,6 +47,8 @@ public class MainTextInterface extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -74,6 +79,11 @@ public class MainTextInterface extends javax.swing.JFrame {
         jPanel1.add(jButton1);
 
         jButton2.setText("Save File");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton2);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_END);
@@ -87,6 +97,22 @@ public class MainTextInterface extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem1);
+
+        jMenuItem3.setText("Save");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
+        jMenuItem2.setText("Exit");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
 
         jMenuBar1.add(jMenu1);
 
@@ -138,6 +164,10 @@ public class MainTextInterface extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        filename = jTextField1.getText();
+        System.out.println(filename);
+        file = new File(filename);
+        fileLoad();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -154,6 +184,29 @@ public class MainTextInterface extends javax.swing.JFrame {
         }
 //        filename = fileChoice.getName();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        JOptionPane exitpane = new JOptionPane();//JOptionPane.YES_NO_OPTION
+        int out = JOptionPane.showConfirmDialog(null, "Would you like to save before closing?", "Save and Close", JOptionPane.YES_NO_OPTION);
+        if (out == JOptionPane.YES_OPTION) {
+            saveFile(jTextArea1.getText());
+            System.exit(0);
+        }
+        else if (out == JOptionPane.NO_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        saveFile(jTextArea1.getText());
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        saveFile(jTextArea1.getText());
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,8 +242,22 @@ public class MainTextInterface extends javax.swing.JFrame {
             }
         });
     }
+    void saveFile(String save) {
+        try {
+//            file.createNewFile();
+            
+            FileWriter fileWriter = new FileWriter(file.getName(),false);
+            BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
+            bufferWriter.write(save);
+            bufferWriter.close();
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+}
 
     void fileLoad() {
+        jTextArea1.setText(null);
         if(!file.exists()){
             try {
                 file.createNewFile();
@@ -228,6 +295,8 @@ public class MainTextInterface extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
