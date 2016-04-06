@@ -35,9 +35,6 @@ public class MainTextInterface extends javax.swing.JFrame {
      * Creates new form MainTextInterface
      * @param log
      */
-//    public MainTextInterface() {
-//        initComponents();
-//    }
     public MainTextInterface(LoggerFrame log) {
         initComponents();
         initHistogram();
@@ -51,60 +48,35 @@ public class MainTextInterface extends javax.swing.JFrame {
     private void initHistogram() {
         histoFrame = new JFrame();
         histoFrame.setSize(500, 300);
-//        histoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         histoFrame.setTitle("Histogram");
         histoFrame.setLocationRelativeTo(this); // Center the frame
-//        frame.setVisible(true);
-//        JPanel p = new JPanel();
-//        p.setLayout(new BorderLayout());
-//        p.add(new JLabel("Text File"), BorderLayout.WEST);
-//        p.add(jtf, BorderLayout.CENTER);
         display.setBorder(new LineBorder(Color.red, 1));
         histoFrame.setLayout(new BorderLayout());
-//        display.add(p, BorderLayout.SOUTH);
         histoFrame.add(display, BorderLayout.CENTER);
-//        jtf.addActionListener(new Listener());
         histoFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         histoFrame.addWindowListener(new WindowAdapter() {
             //I skipped unused callbacks for readability
             @Override
             public void windowClosing(WindowEvent e) {
-//                if(JOptionPane.showConfirmDialog(frame, "Are you sure ?") == JOptionPane.OK_OPTION){
-                    log.getTextArea().append("Hide Histogram via window buttonn");
-                    histoFrame.setVisible(false);
-//                    frame.dispose();
-//                }
+                log.getTextArea().append("Hide Histogram via window buttonn");
+                histoFrame.setVisible(false);
             }
         });
-
-
     }
-        public void updateHistogram() {
-            // Reset counts
-            for (int i = 0; i < 26; i++) {
-                counts[i] = 0;
-            }
-            log.getTextArea().append("Update Histogram data\n");
-//            try {
-                // Create file input stream
-//                Scanner input = new Scanner(new File(jtf.getText().trim()));
-//                while (input.hasNext()) {
-            String line = jTextArea1.getText();
-            for (int i = 0; i < line.length(); i++) {
-                if (Character.isLetter(line.charAt(i))) {
-                    counts[Character.toUpperCase(line.charAt(i)) - 'A']++;
-                }
-            }
-            //                }
-            display.showHistogram(counts);
-//            }
-//            catch (FileNotFoundException ex) {
-//                System.out.println("File not found: " + jtf.getText().trim());
-//            }
-//            catch (IOException ex) {
-//                System.out.println(ex.getMessage());
-//            }
+    public void updateHistogram() {
+        // Reset counts
+        for (int i = 0; i < 26; i++) {
+            counts[i] = 0;
         }
+        log.getTextArea().append("Update Histogram data\n");
+        String line = jTextArea1.getText();
+        for (int i = 0; i < line.length(); i++) {
+            if (Character.isLetter(line.charAt(i))) {
+                counts[Character.toUpperCase(line.charAt(i)) - 'A']++;
+            }
+        }
+        display.showHistogram(counts);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
