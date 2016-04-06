@@ -71,6 +71,7 @@ public class MainTextInterface extends javax.swing.JFrame {
         histoFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         histoFrame.addWindowListener(new WindowAdapter() {
             //I skipped unused callbacks for readability
+            @Override
             public void windowClosing(WindowEvent e) {
 //                if(JOptionPane.showConfirmDialog(frame, "Are you sure ?") == JOptionPane.OK_OPTION){
                     log.getTextArea().append("Hide Histogram via window buttonn");

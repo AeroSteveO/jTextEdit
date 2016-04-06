@@ -26,6 +26,7 @@ public class LoggerFrame extends javax.swing.JFrame {
             //I skipped unused callbacks for readability
 
             
+            @Override
             public void windowClosing(WindowEvent e) {
 //                if(JOptionPane.showConfirmDialog(frame, "Are you sure ?") == JOptionPane.OK_OPTION){
                     getTextArea().append("Hide log via window button\n");
