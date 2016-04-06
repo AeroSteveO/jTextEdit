@@ -9,6 +9,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,7 +55,7 @@ public class MainTextInterface extends javax.swing.JFrame {
     private void initHistogram() {
         histoFrame = new JFrame();
         histoFrame.setSize(500, 300);
-        histoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        histoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         histoFrame.setTitle("Histogram");
         histoFrame.setLocationRelativeTo(this); // Center the frame
 //        frame.setVisible(true);
@@ -66,6 +68,18 @@ public class MainTextInterface extends javax.swing.JFrame {
 //        display.add(p, BorderLayout.SOUTH);
         histoFrame.add(display, BorderLayout.CENTER);
 //        jtf.addActionListener(new Listener());
+        histoFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        histoFrame.addWindowListener(new WindowAdapter() {
+            //I skipped unused callbacks for readability
+            public void windowClosing(WindowEvent e) {
+//                if(JOptionPane.showConfirmDialog(frame, "Are you sure ?") == JOptionPane.OK_OPTION){
+                    log.getTextArea().append("Hide Histogram via window buttonn");
+                    histoFrame.setVisible(false);
+//                    frame.dispose();
+//                }
+            }
+        });
+
 
     }
         public void updateHistogram() {
@@ -126,7 +140,7 @@ public class MainTextInterface extends javax.swing.JFrame {
         jLabel1.setText("Input Filename Here");
         jPanel1.add(jLabel1);
 
-        jTextField1.setText("jTextField1");
+        jTextField1.setText("filename");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -228,6 +242,7 @@ public class MainTextInterface extends javax.swing.JFrame {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             file = fileChoice.getSelectedFile();
             filename = file.getName();
+            jTextField1.setText(filename);
             log.getTextArea().append("File " + filename + " chosen via JFileChooser\n");
             fileLoad();
         }

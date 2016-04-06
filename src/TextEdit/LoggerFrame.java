@@ -5,6 +5,9 @@
  */
 package TextEdit;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JTextArea;
 
 /**
@@ -18,6 +21,20 @@ public class LoggerFrame extends javax.swing.JFrame {
      */
     public LoggerFrame() {
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            //I skipped unused callbacks for readability
+
+            
+            public void windowClosing(WindowEvent e) {
+//                if(JOptionPane.showConfirmDialog(frame, "Are you sure ?") == JOptionPane.OK_OPTION){
+                    getTextArea().append("Hide log via window button\n");
+                    setVisible(false);
+//                    frame.dispose();
+//                }
+            }
+        });
+
     }
 
     /**
